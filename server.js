@@ -7,7 +7,7 @@ import nodemailer from 'nodemailer';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const HOST = process.env.HOST || 'localhost';
 
 // MIME types для статических файлов
@@ -349,8 +349,8 @@ server.listen(PORT, HOST, () => {
 ║   🚀 DevInfra Server запущен!                        ║
 ║                                                       ║
 ║   📡 Порт: ${PORT.toString().padEnd(44)             } ║
-║   🌍 URL: http://${HOST}:${PORT}${' '.repeat(44 - HOST.length - PORT.toStri║
-║   ⏰ Время: ${new Date().toLocaleString('ru-RU').padE║
+║   🌍 URL: http://${HOST}:${PORT}${' '.repeat(44 - HOST.length - PORT.toString().length) } ║
+║   ⏰ Время: ${new Date().toLocaleString('ru-RU').padEnd(44)          } ║
 ║                                                       ║
 ║   📝 Доступные API endpoints:                         ║
 ║      GET  /api/health                                 ║

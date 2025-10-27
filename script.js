@@ -31,14 +31,14 @@ const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const mobileMenu = document.getElementById('mobile-menu');
 
 mobileMenuBtn.addEventListener('click', () => {
-    mobileMenu.classList.toggle('hidden');
+    mobileMenu.classList.toggle('open');
 });
 
 // Close mobile menu when clicking on a link
 const mobileMenuLinks = mobileMenu.querySelectorAll('a');
 mobileMenuLinks.forEach(link => {
     link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('open');
     });
 });
 
@@ -337,6 +337,26 @@ const observer = new IntersectionObserver((entries) => {
 // Observe all cards and sections
 document.querySelectorAll('.card, section > div > div').forEach(el => {
     observer.observe(el);
+});
+
+// Scroll to Top Button
+const scrollToTopBtn = document.getElementById('scroll-to-top');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        scrollToTopBtn.classList.remove('opacity-0');
+        scrollToTopBtn.classList.add('opacity-100');
+    } else {
+        scrollToTopBtn.classList.remove('opacity-100');
+        scrollToTopBtn.classList.add('opacity-0');
+    }
+});
+
+scrollToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
 });
 
 // Navbar scroll effect
