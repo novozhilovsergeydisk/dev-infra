@@ -1,0 +1,22 @@
+{
+  "name": "dev-infra",
+  "version": "1.0.0",
+  "description": "Веб-сайт для агентства разработки и настройки серверной инфраструктуры",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "web",
+    "development",
+    "server",
+    "infrastructure"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemailer": "^6.9.7"
+  }
+}
