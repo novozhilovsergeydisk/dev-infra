@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "build:css": "postcss src/input.css -o public/styles.css --verbose"
   },
   "keywords": [
     "web",
@@ -17,6 +18,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "nodemailer": "^6.9.7"
+    "@tailwindcss/vite": "^4.1.16",
+    "nodemailer": "^7.0.10",
+    "tailwindcss": "^4.1.16"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.16",
+    "postcss-cli": "^11.0.1"
   }
 }

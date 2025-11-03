@@ -310,7 +310,7 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/') {
         filePath = path.join(__dirname, 'index.html');
     } else {
-        filePath = path.join(__dirname, pathname);
+        filePath = path.join(__dirname, 'public', pathname);
     }
 
     // Проверка безопасности пути (предотвращение directory traversal)
