@@ -87,19 +87,28 @@ quizOptions.forEach(option => {
 // Handle multi-choice options (step 4)
 const quizOptionsMulti = document.querySelectorAll('.quiz-option-multi');
 quizOptionsMulti.forEach(option => {
-    option.addEventListener('click', function() {
-        const value = this.dataset.value;
-        const price = parseInt(this.dataset.price);
+    const checkbox = option.querySelector('input[type="checkbox"]');
+    checkbox.addEventListener('change', function() {
+        const value = option.dataset.value;
+        const price = parseInt(option.dataset.price);
 
-        // Toggle selected class
-        this.classList.toggle('selected');
+        // Toggle selected class on div
+        option.classList.toggle('selected', this.checked);
 
         // Update features array
         const existingIndex = quizData.features.findIndex(f => f.value === value);
-        if (existingIndex > -1) {
-            quizData.features.splice(existingIndex, 1);
-        } else {
+        if (this.checked && existingIndex === -1) {
             quizData.features.push({ value, price });
+        } else if (!this.checked && existingIndex > -1) {
+            quizData.features.splice(existingIndex, 1);
+        }
+    });
+
+    // Allow clicking on div to toggle checkbox
+    option.addEventListener('click', function(e) {
+        if (e.target !== checkbox) {
+            checkbox.checked = !checkbox.checked;
+            checkbox.dispatchEvent(new Event('change'));
         }
     });
 });
@@ -139,6 +148,15 @@ function previousStep() {
 }
 
 function calculateTotal() {
+    // Синхронизировать multi-options с quizData
+    document.querySelectorAll('.quiz-option-multi.selected').forEach(opt => {
+        const value = opt.dataset.value;
+        const price = parseInt(opt.dataset.price);
+        if (!quizData.features.find(f => f.value === value)) {
+            quizData.features.push({ value, price });
+        }
+    });
+
     // Calculate total price
     let total = quizData.projectType.price +
                 quizData.pages.price +
@@ -206,9 +224,11 @@ function resetQuiz() {
 
     currentStep = 1;
 
-    // Remove all selected classes
+    // Remove all selected classes and uncheck checkboxes
     document.querySelectorAll('.quiz-option, .quiz-option-multi').forEach(opt => {
         opt.classList.remove('selected');
+        const checkbox = opt.querySelector('input[type="checkbox"]');
+        if (checkbox) checkbox.checked = false;
     });
 
     // Hide result and show first step
