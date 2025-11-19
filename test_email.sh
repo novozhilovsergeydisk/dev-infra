@@ -3,11 +3,11 @@
 # Скрипт для тестирования эндпоинта /api/contact
 
 # Отправляем POST-запрос с тестовыми данными
-curl -X POST http://localhost:3002/api/contact \
+curl -X POST http://localhost:3001/api/contact \
 -H "Content-Type: application/json" \
 -d '{
     "name": "Тестовый пользователь",
-    "email": "test@example.com",
+    "email": "lombardozzi@appuse.ru",
     "phone": "+79991234567",
     "message": "Это тестовое сообщение для проверки работы почты."
 }'

@@ -102,23 +102,29 @@ const apiHandlers = {
             console.log('Дата:', new Date().toLocaleString('ru-RU'));
             console.log('───────────────────────────────\n');
 
-            // Отправка email (раскомментируйте для реальной отправки)
-            const transporter = createEmailTransporter();
-            await transporter.sendMail({
-                from: process.env.SMTP_USER,
-                to: process.env.CONTACT_EMAIL || 'info@devinfra.ru',
-                subject: `Новая заявка от ${name}`,
-                html: `
-                    <h2>Новая заявка с сайта</h2>
-                    <p><strong>Имя:</strong> ${name}</p>
-                    <p><strong>Email:</strong> ${email}</p>
-                    <p><strong>Телефон:</strong> ${phone || 'не указан'}</p>
-                    <p><strong>Сообщение:</strong></p>
-                    <p>${message.replace(/\n/g, '<br>')}</p>
-                    <hr>
-                    <p><small>Получено: ${new Date().toLocaleString('ru-RU')}</small></p>
-                `
-            });
+            // Отправка email (только если настроен SMTP)
+            try {
+                const transporter = createEmailTransporter();
+                await transporter.sendMail({
+                    from: process.env.SMTP_USER,
+                    to: process.env.EMAIL_TO || process.env.CONTACT_EMAIL || 'info@devinfra.ru',
+                    subject: `Новая заявка от ${name}`,
+                    html: `
+                        <h2>Новая заявка с сайта</h2>
+                        <p><strong>Имя:</strong> ${name}</p>
+                        <p><strong>Email:</strong> ${email}</p>
+                        <p><strong>Телефон:</strong> ${phone || 'не указан'}</p>
+                        <p><strong>Сообщение:</strong></p>
+                        <p>${message.replace(/\n/g, '<br>')}</p>
+                        <hr>
+                        <p><small>Получено: ${new Date().toLocaleString('ru-RU')}</small></p>
+                    `
+                });
+                console.log('✅ Email успешно отправлен');
+            } catch (emailError) {
+                console.warn('⚠️  Ошибка отправки email:', emailError.message);
+                console.log('📝 Заявка сохранена в логах');
+            }
 
             sendJSON(res, 200, {
                 success: true,

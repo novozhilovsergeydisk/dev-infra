@@ -81,11 +81,14 @@ export function createEmailTransporter() {
     // Для продакшена используйте реальные настройки SMTP
     return nodemailer.createTransport({
         host: process.env.SMTP_HOST || 'smtp.gmail.com',
-        port: process.env.SMTP_PORT || 587,
-        secure: false,
+        port: parseInt(process.env.SMTP_PORT) || 587,
+        secure: process.env.SMTP_SECURE === 'true',
         auth: {
             user: process.env.SMTP_USER || 'your-email@gmail.com',
             pass: process.env.SMTP_PASS || 'your-password'
-        }
+        },
+        connectionTimeout: 10000, // 10 секунд
+        greetingTimeout: 10000,   // 10 секунд
+        socketTimeout: 10000      // 10 секунд
     });
 }
